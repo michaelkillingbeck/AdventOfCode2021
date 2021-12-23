@@ -8,7 +8,6 @@ def part_one():
 
     for line in lines:
         command = line.split()
-        print(command)
 
         if (len(command) > 1):
             distance = int(command[1])
@@ -23,5 +22,31 @@ def part_one():
 
     print(vertical * horizontal)
 
-part_one()
+def part_two():
+    aim = 0
+    horizontal = 0
+    lines = []
+    vertical = 0
 
+    with open("Day2PuzzleInput.txt") as file:
+        lines = file.readlines()
+
+    for line in lines:
+        command = line.split()
+        
+        if(len(command) > 1):
+            distance = int(command[1])
+            direction = command[0]
+
+            if (direction == 'down'):
+                aim += distance
+            elif (direction == 'up'):
+                aim -= distance
+            elif (direction == 'forward'):
+                horizontal += distance
+                vertical += (distance * aim)
+
+    print (vertical * horizontal)
+
+part_one()
+part_two()
