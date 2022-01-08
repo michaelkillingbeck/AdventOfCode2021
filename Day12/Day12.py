@@ -1,5 +1,6 @@
 import time
-#sleep_time = 2.5
+small_caves_only_once = True
+#sleep_time = 0.75
 
 class Path:
     start = ""
@@ -32,8 +33,29 @@ def can_be_visited(end_point, total_route):
 
     for char in total_route:
         if(end_point == char):
-            return False
+            if(can_visit_again(char, total_route) == False):
+                return False
 
+    return True
+
+def can_visit_again(char, total_route):
+    if(small_caves_only_once):
+        return False
+
+    visited_places = []
+
+    for place in total_route:
+        if place.islower():
+            #print("Place is %s" %place)
+
+            for visited_place in visited_places:
+                if visited_place == place:
+                    return False
+
+            visited_places.append(place)
+    
+    #print("Can visit %s again" %char)
+    #print("Total route is: %s" %total_route)
     return True
 
 def create_paths(lines):
@@ -53,7 +75,7 @@ def get_input(filename):
 
     return lines
 
-def part_one(paths):
+def calculate_paths(paths):
     answers = []
 
     starting_points = filter(lambda path: path.is_start(), paths)
@@ -75,8 +97,8 @@ def part_one(paths):
             finished_paths.append(path)
 
     #print("Final paths:")
-    for path in finished_paths:
-        print(path)
+    #for path in finished_paths:
+        #print(path)
 
     print("Total paths found: %s" %len(finished_paths))
 
@@ -111,4 +133,6 @@ def traverse_paths(all_paths, current_path, point, paths):
 
 puzzle_input = get_input("Day12PuzzleInput.txt")
 paths = create_paths(puzzle_input)
-part_one(paths)
+calculate_paths(paths)
+small_caves_only_once = False
+calculate_paths(paths)
