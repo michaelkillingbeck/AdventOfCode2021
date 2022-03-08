@@ -1,4 +1,3 @@
-#test
 def part_one():
     count =  0
     lastLine = 0
